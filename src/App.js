@@ -4,6 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import AdminCategory from "./pages/AdminCategory";
 import AdminLocation from "./pages/AdminLocation";
 import AdminSetting from "./pages/AdminSetting";
+import UserHome from "./pages/UserHome";
+import EventDetail from "./components/home/EventDetail";
 function App() {
   return (
     <div className="">
@@ -14,6 +16,8 @@ function App() {
           <Route path="location" element={<AdminLocation />} />
           <Route path="settings" element={<AdminSetting />} />
         </Route>
+        <Route path="user" element={<UserHome />} />
+        <Route path="user/:id" element={<EventDetail />} />
       </Routes>
     </div>
   );

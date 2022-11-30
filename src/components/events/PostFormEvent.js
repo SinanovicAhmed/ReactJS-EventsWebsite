@@ -1,18 +1,63 @@
+import { getSpaceUntilMaxLength } from "@testing-library/user-event/dist/utils";
 import React from "react";
-import { useState } from "react";
-const PostFormEvent = () => {
+import { useState, useEffect } from "react";
+
+const PostFormEvent = (props) => {
   const [event, setEvent] = useState({
-    name: "",
-    description: "",
-    categoryID: "",
-    locationID: "",
-    date: "",
-    image: "",
+    name: props.name,
+    description: props.description,
+    category_id: props.category.id,
+    location_id: props.location.id,
+    date: props.date,
+    image_url: props.image,
   });
-  const postEvent = (e) => {
+
+  const [categories, setCategories] = useState();
+  const [locations, setLocations] = useState();
+  const [image, setImage] = useState("");
+
+  const postEvent = async (e) => {
     e.preventDefault();
-    console.log("Post");
+    if (props.method === "POST") {
+      const response = await fetch("http://localhost:8080/api/events/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(event),
+      }).then(props.rerender());
+
+      console.log(JSON.stringify(event));
+    } else {
+      const response = await fetch(
+        "http://localhost:8080/api/events/update/" + props.id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(event),
+        }
+      ).then(props.rerender());
+    }
   };
+
+  const getCategories = async () => {
+    const response = await fetch("http://localhost:8080/api/categories");
+    const categories = await response.json();
+    setCategories(categories);
+  };
+
+  const getLocations = async () => {
+    const response = await fetch("http://localhost:8080/api/locations");
+    const locations = await response.json();
+    setLocations(locations);
+  };
+
+  useEffect(() => {
+    getCategories();
+    getLocations();
+  }, []);
   return (
     <form
       className="flex flex-col w-[100%] h-[100%] z-20"
@@ -54,17 +99,24 @@ const PostFormEvent = () => {
               id="category"
               name="category"
               className="bg-[#EBEBEB] rounded-full px-[5px]"
-              value={event.categoryID}
+              value={event.category_id}
               onChange={(e) =>
                 setEvent((prevState) => {
-                  return { ...prevState, categoryID: e.target.value };
+                  return { ...prevState, category_id: e.target.value };
                 })
               }
             >
               <option value=""></option>
-              <option value="saab">Saab</option>
-              <option value="fiat">Fiat</option>
-              <option value="audi">Audi</option>
+              {categories &&
+                categories.map((category) => (
+                  <option
+                    key={category.id}
+                    value={category.id}
+                    selected={category.id === props.category.id}
+                  >
+                    {category.name}
+                  </option>
+                ))}
             </select>
           </div>
           <div className="w-[70%] flex flex-col my-[8px]">
@@ -74,17 +126,20 @@ const PostFormEvent = () => {
               id="location"
               name="location"
               className="bg-[#EBEBEB] rounded-full px-[5px]"
-              value={event.locationID}
+              value={event.location_id}
               onChange={(e) =>
                 setEvent((prevState) => {
-                  return { ...prevState, locationID: e.target.value };
+                  return { ...prevState, location_id: e.target.value };
                 })
               }
             >
               <option value=""></option>
-              <option value="saab">Saab</option>
-              <option value="fiat">Fiat</option>
-              <option value="audi">Audi</option>
+              {locations &&
+                locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.name}
+                  </option>
+                ))}
             </select>
           </div>
           <div className="w-[70%] flex flex-col my-[8px]">
@@ -94,7 +149,7 @@ const PostFormEvent = () => {
               value={event.date}
               onChange={(e) =>
                 setEvent((prevState) => {
-                  return { ...prevState, date: e.target.value };
+                  return { ...prevState, date: e.target.value.toString() };
                 })
               }
               type="date"
@@ -107,20 +162,20 @@ const PostFormEvent = () => {
             <label className="text-[#535353] font-bold">Url slika</label>
             <input
               required
-              value={event.image}
-              onChange={(e) =>
+              value={event.image_url}
+              onChange={(e) => {
                 setEvent((prevState) => {
-                  return { ...prevState, image: e.target.value };
-                })
-              }
+                  return { ...prevState, image_url: e.target.value };
+                });
+              }}
               className="bg-[#EBEBEB] rounded-full px-[5px]"
             />
+            <button type="button" onClick={() => setImage(event.image_url)}>
+              Preview image
+            </button>
           </div>
           <div className="w-[70%] h-[200px] rounded-full">
-            <img
-              className="object-fill"
-              src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            />
+            <img className="object-fill" src={image} />
           </div>
         </div>
       </div>
@@ -128,7 +183,7 @@ const PostFormEvent = () => {
         type="submit"
         className="py-[10px] px-[5px] bg-[#0B2354] text-white rounded-b-lg"
       >
-        Dodaj
+        {props.method === "POST" ? "Dodaj" : "Uredi"}
       </button>
     </form>
   );

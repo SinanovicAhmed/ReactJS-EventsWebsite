@@ -13,7 +13,7 @@ const Sidebar = () => {
         <span className="text-white font-medium text-[28px]"> Panel</span>
       </h2>
 
-      <div className="flex flex-col h-[200px] mt-[-400px]">
+      <div className="flex flex-col h-[200px] mt-[-200px]">
         <SidebarElement icon={eventIcon} text="Eventi" link="/admin/event" />
         <SidebarElement
           icon={categoryIcon}
