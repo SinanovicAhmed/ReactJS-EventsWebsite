@@ -39,6 +39,7 @@ const AdminCategory = () => {
       <CategoryList name="Kateogrija" icon="Ikona" header={true} />
       {categories.map((category) => (
         <CategoryList
+          key={category.id}
           id={category.id}
           name={category.name}
           icon={category.icon}

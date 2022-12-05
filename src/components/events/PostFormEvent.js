@@ -29,6 +29,7 @@ const PostFormEvent = (props) => {
 
       console.log(JSON.stringify(event));
     } else {
+      console.log("UPDATE");
       const response = await fetch(
         "http://localhost:8080/api/events/update/" + props.id,
         {

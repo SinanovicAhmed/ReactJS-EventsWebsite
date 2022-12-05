@@ -8,7 +8,7 @@ const HomeEvent = (props) => {
     >
       <img className="w-[100%] h-[250px]" src={props.event.image_url} />
       <div className="w-[100%] bg-[#3F61D9] flex justify-between items-center rounded-b-lg px-[10px]">
-        <h2 className="w-[40%] text-[20px] text-white font-bold">
+        <h2 className="w-[40%] truncate text-[20px] text-white font-bold">
           {props.event.name}
         </h2>
         <h2 className="w-[30%] text-white text-[15px]">{props.event.date}</h2>

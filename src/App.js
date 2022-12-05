@@ -5,7 +5,7 @@ import AdminCategory from "./pages/AdminCategory";
 import AdminLocation from "./pages/AdminLocation";
 import AdminSetting from "./pages/AdminSetting";
 import UserHome from "./pages/UserHome";
-import EventDetail from "./components/home/EventDetail";
+import EventDetail from "./pages/EventDetail";
 function App() {
   return (
     <div className="">

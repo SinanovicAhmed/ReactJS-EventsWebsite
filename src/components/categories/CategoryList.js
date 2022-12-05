@@ -7,7 +7,7 @@ const CategoryList = (props) => {
     setShowModal(!showModal);
   };
   return (
-    <div className="w-[100%] max-w-[400px] px-[20px] p-[5px] my-[8px] flex justify-center gap-5 bg-white">
+    <div className="w-[100%] max-w-[400px] px-[20px] p-[5px] my-[8px] flex justify-center items-center gap-5 bg-white">
       {showModal && (
         <CategoryModal
           method="PUT"
@@ -21,7 +21,11 @@ const CategoryList = (props) => {
         {props.name}
       </h2>
       <h2 className="w-[50%] truncate border-r-[1px] border-gray">
-        {props.icon === "Ikona" ? "Ikona" : <img src={props.icon} />}
+        {props.icon === "Ikona" ? (
+          "Ikona"
+        ) : (
+          <img className="h-[30px]" src={props.icon} />
+        )}
       </h2>
       {!props.header ? (
         <button
