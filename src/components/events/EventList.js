@@ -3,7 +3,6 @@ import { useState } from "react";
 import EventModal from "./EventModal";
 const EventList = (props) => {
   const [showModal, setShowModal] = useState(false);
-  const [renderAfterPost, setRenderAfterPost] = useState("");
 
   const turnOffModal = () => {
     setShowModal(false);

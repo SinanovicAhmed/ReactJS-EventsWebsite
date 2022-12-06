@@ -6,6 +6,8 @@ import AdminLocation from "./pages/AdminLocation";
 import AdminSetting from "./pages/AdminSetting";
 import UserHome from "./pages/UserHome";
 import EventDetail from "./pages/EventDetail";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 function App() {
   return (
     <div className="">
@@ -18,6 +20,8 @@ function App() {
         </Route>
         <Route path="user" element={<UserHome />} />
         <Route path="user/:id" element={<EventDetail />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
       </Routes>
     </div>
   );
