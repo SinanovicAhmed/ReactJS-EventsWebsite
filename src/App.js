@@ -8,9 +8,10 @@ import UserHome from "./pages/UserHome";
 import EventDetail from "./pages/EventDetail";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+
 function App() {
   return (
-    <div className="">
+    <div>
       <Routes>
         <Route path="admin" element={<AdminPanel />}>
           <Route path="event" element={<AdminEvent />} />

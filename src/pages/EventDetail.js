@@ -26,7 +26,7 @@ const EventDetail = () => {
           Event
         </h2>
         <img className="w-[80%] h-[300px] object-cover" src={event.image_url} />
-        <div className="w-[95%] flex justify-between py-[10px]">
+        <div className="w-[80%] flex justify-between py-[10px]">
           <p className="text-[20px] font-bold">{event.name}</p>
           <p className="text-[20px] font-bold">{event.date}</p>
           <p className="text-[20px] font-bold">{event.category.name}</p>
