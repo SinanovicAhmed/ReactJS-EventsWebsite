@@ -1,10 +1,30 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../../UserContext";
+import { useNavigate } from "react-router-dom";
 import usePost from "../../customHooks/usePost";
+const isObject = (obj) => {
+  return Object.prototype.toString.call(obj) === "[object Object]";
+};
 const LoginForm = () => {
   const [user, setUser] = useState({ email: "", password: "" });
-  const { response, post } = usePost();
-  console.log(response);
+  const { response, post } = usePost("POST");
+  const cx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isObject(response)) {
+      // if we get user object back we know login was success
+      if (response.banned === false) {
+        cx.setLoggedIn(true);
+        cx.setUser(response);
+        response.email !== "admin" ? navigate("/user") : navigate("/admin");
+      } else {
+        navigate("/banned");
+      }
+    }
+  }, [response]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -16,6 +36,7 @@ const LoginForm = () => {
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Korisničko ime</label>
         <input
+          required
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {
@@ -27,6 +48,8 @@ const LoginForm = () => {
       <div className="w-[100%] flex flex-col mt-[10px]">
         <label className="text-[#21201e] font-bold">Lozinka</label>
         <input
+          required
+          type="password"
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {

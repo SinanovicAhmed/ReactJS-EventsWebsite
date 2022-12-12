@@ -45,7 +45,11 @@ const EventDetail = () => {
         <h2 className="w-[80%] text-center text-[25px] font-bold text-[#0B2354] mt-[10px] border-b-2 border-[#0B2354] mb-[20px]">
           Komentari
         </h2>
-        <Comments comments={event.comments} event_id={id} />
+        <Comments
+          comments={event.comments}
+          event_id={id}
+          refetchComments={getEventDetails}
+        />
       </div>
     </div>
   );

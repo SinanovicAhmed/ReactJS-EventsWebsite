@@ -1,10 +1,10 @@
 import { useState } from "react";
-const usePost = () => {
+const usePost = (method) => {
   const [response, setResponse] = useState("");
   const post = async (url, data) => {
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: method,
         headers: {
           "Content-Type": "application/json",
         },

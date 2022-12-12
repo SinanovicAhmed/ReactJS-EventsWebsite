@@ -10,8 +10,8 @@ const RegistrationForm = () => {
     password: "",
     banned: false,
   });
-  const { response, post } = usePost();
-  console.log(response);
+  const { response, post } = usePost("POST");
+
   return (
     <form
       onSubmit={(e) => {
@@ -23,6 +23,7 @@ const RegistrationForm = () => {
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Ime</label>
         <input
+          required
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {
@@ -34,6 +35,7 @@ const RegistrationForm = () => {
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Prezime</label>
         <input
+          required
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {
@@ -45,6 +47,8 @@ const RegistrationForm = () => {
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Email</label>
         <input
+          required
+          type="email"
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {
@@ -56,6 +60,8 @@ const RegistrationForm = () => {
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Lozinka</label>
         <input
+          required
+          type="password"
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {

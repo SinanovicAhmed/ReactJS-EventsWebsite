@@ -5,7 +5,20 @@ import eventIcon from "../../Images/eventIcon.png";
 import locationIcon from "../../Images/locationIcon.png";
 import settingsIcon from "../../Images/settingsIcon.png";
 import logoutIcon from "../../Images/logoutIcon.png";
+import { UserContext } from "../../UserContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Sidebar = () => {
+  const cx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    cx.setLoggedIn(false);
+    cx.setUser({});
+    navigate("/login");
+  };
+
   return (
     <div className="h-screen min-w-[300px] flex flex-col justify-between bg-[#0B2354] p-[20px] pb-[40px]">
       <h2 className="text-center border-b-[1px] border-[#3F61D9] pb-[15px]">
@@ -33,7 +46,9 @@ const Sidebar = () => {
           text="Postavke"
           link="/admin/settings"
         />
-        <SidebarElement icon={locationIcon} text="Odjava" />
+        <div onClick={logout}>
+          <SidebarElement icon={logoutIcon} text="Odjava" />
+        </div>
       </div>
     </div>
   );

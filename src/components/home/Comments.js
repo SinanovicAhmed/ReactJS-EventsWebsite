@@ -1,20 +1,22 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import { UserContext } from "../../UserContext";
+import usePost from "../../customHooks/usePost";
 const Comments = (props) => {
+  const cx = useContext(UserContext);
   const [comment, setComment] = useState({
     comment: "",
-    user_id: "", //dodati user id iz contexa,
+    user_id: cx.user.id || "", //dodati user id iz contexa,
     event_id: props.event_id,
   });
+  const { response, post } = usePost();
+
   const postComment = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/events/save", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(comment),
-    }).then(props.rerender());
+    post("http://localhost:8080/api/comments/save", comment);
+    setComment((prevState) => ({ ...prevState, comment: "" }));
+    setTimeout(() => {
+      props.refetchComments();
+    }, 1000);
   };
 
   if (!props.comments) return <p>Loading...</p>;
@@ -25,8 +27,16 @@ const Comments = (props) => {
         className="w-[100%] my-[10px] flex justify-between px-[5px]"
       >
         <input
+          required
           placeholder="Ostavite novi komentar:"
           className="w-[80%] flex bg-white rounded-full my-[2px] px-[5px] border-[1px] border-[#ababab]"
+          value={comment.comment}
+          onChange={(e) =>
+            setComment((prevState) => ({
+              ...prevState,
+              comment: e.target.value,
+            }))
+          }
         />
         <button
           type="sumbit"
