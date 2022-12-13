@@ -11,20 +11,19 @@ const CategoryList = (props) => {
       {showModal && (
         <CategoryModal
           method="PUT"
-          id={props.id}
-          name={props.name}
-          icon={props.icon}
+          name={props.category.name}
+          icon={props.category.icon}
           toggleModal={toggleModal}
         />
       )}
       <h2 className="w-[50%] truncate border-r-[1px] border-gray">
-        {props.name}
+        {props.category === "" ? "Naziv" : props.category.name}
       </h2>
       <h2 className="w-[50%] truncate border-r-[1px] border-gray">
-        {props.icon === "Ikona" ? (
+        {props.category === "" ? (
           "Ikona"
         ) : (
-          <img className="h-[30px]" src={props.icon} />
+          <img className="h-[30px]" src={props.category.icon} />
         )}
       </h2>
       {!props.header ? (

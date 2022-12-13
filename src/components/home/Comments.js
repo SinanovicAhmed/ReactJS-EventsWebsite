@@ -8,7 +8,7 @@ const Comments = (props) => {
     user_id: cx.user.id || "", //dodati user id iz contexa,
     event_id: props.event_id,
   });
-  const { response, post } = usePost();
+  const { response, post } = usePost("POST");
 
   const postComment = async (e) => {
     e.preventDefault();
@@ -50,7 +50,10 @@ const Comments = (props) => {
           <p className="text-center">Nema komentara...</p>
         )}
         {props.comments.map((comment) => (
-          <div className="w-[100%] flex bg-white rounded-full my-[4px] px-[5px]">
+          <div
+            key={comment.id}
+            className="w-[100%] flex bg-white rounded-full my-[4px] px-[5px]"
+          >
             <p className="w-[80%]">{comment.comment}</p>
             <p className="w-[20%] flex justify-end">{comment.date}</p>
           </div>

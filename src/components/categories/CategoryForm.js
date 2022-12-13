@@ -1,51 +1,26 @@
 import { useState } from "react";
-
+import usePost from "../../customHooks/usePost";
 const CategoryForm = (props) => {
   const [category, setCategory] = useState({
     name: props.name,
     icon: props.icon,
   });
-  const [responseMsg, setResponseMsg] = useState();
+  const { response: responsePost, post } = usePost("POST");
+  const { response: resonsePut, post: put } = usePost("PUT");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (props.method === "POST") {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/categories/save",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(category),
-          }
-        );
-        setResponseMsg(await response.text()).then(props.rerender());
-      } catch (e) {
-        console.log(e);
-      }
+      post("http://localhost:8080/api/categories/save", category);
     } else {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/categories/updateCategory/" + props.id,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(category),
-          }
-        );
-        setResponseMsg(await response.text()).then(props.rerender());
-      } catch (e) {
-        console.log(e);
-      }
+      put(
+        "http://localhost:8080/api/categories/updateCategory/" + props.id,
+        category
+      );
     }
   };
   return (
     <>
-      {responseMsg ? <h2>{responseMsg}</h2> : <h2>.</h2>}
       <form
         className="flex flex-col justify-between w-[100%] h-[100%] z-20"
         onClick={(event) => event.stopPropagation()}

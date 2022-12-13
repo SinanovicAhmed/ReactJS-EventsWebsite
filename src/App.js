@@ -1,6 +1,5 @@
 import AdminPanel from "./pages/AdminPanel";
 import AdminEvent from "./pages/AdminEvent";
-import { Route, Routes } from "react-router-dom";
 import AdminCategory from "./pages/AdminCategory";
 import AdminLocation from "./pages/AdminLocation";
 import AdminSettings from "./pages/AdminSettings";
@@ -8,18 +7,20 @@ import UserHome from "./pages/UserHome";
 import EventDetail from "./pages/EventDetail";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import Bannedxd from "./pages/Bannedxd";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
 import {
   PrivateRoute,
   AdminPrivateRoute,
 } from "./components/privateRoutes/PrivateRoute";
-import Bannedxd from "./pages/Bannedxd";
 function App() {
   const cx = useContext(UserContext);
   return (
     <div>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route
           path="admin"
           element={

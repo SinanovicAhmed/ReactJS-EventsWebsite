@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import usePost from "../../customHooks/usePost";
 
@@ -10,16 +10,24 @@ const RegistrationForm = () => {
     password: "",
     banned: false,
   });
+  const navigate = useNavigate();
   const { response, post } = usePost("POST");
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    post("http://localhost:8080/api/users/save", user);
+  };
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        post("http://localhost:8080/api/users/save", user);
-      }}
-      className="w-[80%] h-[100%] flex flex-col justify-center items-center"
+      onSubmit={handleRegister}
+      className="w-[80%] mt-[25px] flex flex-col justify-center items-center"
     >
+      {response != "" ? (
+        <h2 className="text-center">{response}</h2>
+      ) : (
+        <div className="h-[23px]"></div>
+      )}
       <div className="w-[100%] flex flex-col">
         <label className="text-[#21201e] font-bold">Ime</label>
         <input
@@ -48,7 +56,6 @@ const RegistrationForm = () => {
         <label className="text-[#21201e] font-bold">Email</label>
         <input
           required
-          type="email"
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
           onChange={(e) => {
             setUser((prevState) => {

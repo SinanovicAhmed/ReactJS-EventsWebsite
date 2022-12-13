@@ -31,18 +31,17 @@ const AdminCategory = () => {
           name=""
           icon=""
           toggleModal={toggleModal}
+          getCategories={getCategories}
         />
       )}
       <h2 className="text-[30px] text-[#0B2354] font-bold text-center">
         Kategorije
       </h2>
-      <CategoryList name="Kateogrija" icon="Ikona" header={true} />
+      <CategoryList category="" header={true} />
       {categories.map((category) => (
         <CategoryList
           key={category.id}
-          id={category.id}
-          name={category.name}
-          icon={category.icon}
+          category={category}
           header={false}
           toggleModal={toggleModal}
         />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import usePost from "../../customHooks/usePost";
 
 const LocationForm = (props) => {
   const [location, setLocation] = useState({
@@ -6,20 +7,20 @@ const LocationForm = (props) => {
     details: props.location ? props.location.details : "",
     image_url: props.location ? props.location.image_url : "",
   });
+  const { response: responsePost, post } = usePost("POST");
+  const { response: resonsePut, post: put } = usePost("PUT");
 
   const submitForm = async (e) => {
     e.preventDefault();
-
     if (props.method === "POST") {
-      const response = await fetch("http://localhost:8080/api/locations/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(location),
-      });
-
-      console.log(JSON.stringify(location));
+      post("http://localhost:8080/api/locations/save", location);
+      setLocation({ name: "", details: "", image_url: "" });
+    } else {
+      put(
+        "http://localhost:8080/api/locations/updateLocation/" +
+          props.location.id,
+        location
+      );
     }
   };
   return (

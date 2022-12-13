@@ -14,7 +14,6 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isObject(response)) {
-      // if we get user object back we know login was success
       if (response.banned === false) {
         cx.setLoggedIn(true);
         cx.setUser(response);
@@ -31,10 +30,15 @@ const LoginForm = () => {
         e.preventDefault();
         post("http://localhost:8080/api/users/login", user);
       }}
-      className="w-[80%] h-[100%] flex flex-col justify-center items-center"
+      className="w-[80%] mt-[25px] flex flex-col justify-center items-center"
     >
+      {response != "" && !isObject(response) ? (
+        <h2 className="text-center">{response}</h2>
+      ) : (
+        <div className="h-[23px]"></div>
+      )}
       <div className="w-[100%] flex flex-col">
-        <label className="text-[#21201e] font-bold">Korisničko ime</label>
+        <label className="text-[#21201e] font-bold">Email</label>
         <input
           required
           className="rounded-full bg-white/40 h-[35px] px-[15px]"
@@ -60,7 +64,7 @@ const LoginForm = () => {
       </div>
       <button
         type="sumbit"
-        className="mt-[15px] bg-[#0B2354] text-white font-bold py-[5px] px-[10px] rounded-full"
+        className="mt-[15px] bg-[#0B2354] text-white font-bold py-[5px] px-[10px] mb-[10px] rounded-full"
       >
         Prijavi se
       </button>

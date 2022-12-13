@@ -1,4 +1,4 @@
-import { getSpaceUntilMaxLength } from "@testing-library/user-event/dist/utils";
+import usePost from "../../customHooks/usePost";
 import React from "react";
 import { useState, useEffect } from "react";
 
@@ -11,7 +11,8 @@ const PostFormEvent = (props) => {
     date: props.date,
     image_url: props.image,
   });
-
+  const { response, post } = usePost("POST");
+  const { response: responsePut, put } = usePost("PUT");
   const [categories, setCategories] = useState();
   const [locations, setLocations] = useState();
   const [image, setImage] = useState("");
@@ -19,26 +20,15 @@ const PostFormEvent = (props) => {
   const postEvent = async (e) => {
     e.preventDefault();
     if (props.method === "POST") {
-      const response = await fetch("http://localhost:8080/api/events/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(event),
-      }).then(props.rerender());
-
-      console.log(JSON.stringify(event));
+      post("http://localhost:8080/api/events/save", event);
+      setTimeout(() => {
+        props.rerender();
+      }, 1000);
     } else {
-      const response = await fetch(
-        "http://localhost:8080/api/events/update/" + props.id,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(event),
-        }
-      ).then(props.rerender());
+      put("http://localhost:8080/api/events/update/" + props.id, event);
+      setTimeout(() => {
+        props.rerender();
+      }, 1000);
     }
   };
 
